@@ -1,23 +1,24 @@
-const http = require("http");
-const io = require("socket.io");
-const app = require("../app");
-const idGenerator = require("../utils/idGenerator");
+const http = require('http');
+const io = require('socket.io');
+const app = require('../app');
+const idGenerator = require('../utils/idGenerator');
 
-const port = normalizePort("3001");
-app.set("port", port);
+const port = normalizePort('3001');
+app.set('port', port);
 
 const htttpServer = http.createServer(app);
 const socketServer = io(htttpServer);
 const users = new WeakMap();
 const idGen = idGenerator();
+let a;
 
-socketServer.on("connection", (socket) => {
+socketServer.on('connection', (socket) => {
   console.log(
     `Connected ${socket.id} connections`,
     Object.keys(socketServer.sockets.sockets).length
   );
 
-  socket.on("sendName", (arg) => {
+  socket.on('sendName', (arg) => {
     users.set(socket, arg.name);
     let rooms = Object.keys(socketServer.sockets.adapter.rooms);
 
@@ -33,49 +34,50 @@ socketServer.on("connection", (socket) => {
       console.log(`User ${users.get(socket)} joined to room #(${room})
       \nHe is a member of this rooms: [${rooms}]`);
 
-      socket.to(room).emit("serverMessage", {
-        name: arg.name,
+      socket.to(room).emit('broadcastChatMessage', {
         timestamp: Date.now(),
+        sender: 'System',
         text: `User [${arg.name}] connected!`,
+        isOwn: false,
       });
       const roomUsers = getLiveRoomUsers(room);
-      socket.to(room).emit("liveRoomUsers", roomUsers);
-      socket.emit("liveRoomUsers", roomUsers);
+      socket.to(room).emit('liveRoomUsers', roomUsers);
+      socket.emit('liveRoomUsers', roomUsers);
     });
 
-    socket.on("sendChatMessage", (text) => {
-      const message = {
-        sender: users.get(socket) || "",
-        text,
+    socket.on('sendChatMessage', (message) => {
+      const newMessage = {
+        sender: users.get(socket) || '',
+        text: message.text,
         timestamp: Date.now(),
         id: socket.id,
       };
-      console.log("Got message: ", message, Object.keys(socket.rooms));
+      console.log('Got message: ', newMessage, Object.keys(socket.rooms));
       for (room of Object.keys(socket.rooms)) {
-        socket.to(room).emit("broadcastChatMessage", message);
+        socket.to(room).emit('broadcastChatMessage', newMessage);
       }
-      socket.emit("broadcastChatMessage", message);
+      socket.emit('broadcastChatMessage', newMessage);
     });
 
-    socket.emit("successEnter", room);
+    socket.emit('successEnter', room);
 
-    console.log("Got name: ", arg.name);
+    console.log('Got name: ', arg.name);
   });
 
-  socket.on("disconnecting", (reason) => {
+  socket.on('disconnecting', (reason) => {
     let roomUsers;
     const rooms = socket.rooms;
     const name = users.get(socket);
 
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
       Object.keys(rooms)
         .filter((roomId) => socketServer.sockets.adapter.rooms[roomId])
         .forEach((roomId) => {
           roomUsers = getLiveRoomUsers(roomId);
           console.log(roomUsers);
 
-          socket.to(roomId).emit("liveRoomUsers", roomUsers);
-          socket.to(roomId).emit("serverMessage", {
+          socket.to(roomId).emit('liveRoomUsers', roomUsers);
+          socket.to(roomId).emit('serverMessage', {
             name: name,
             timestamp: Date.now(),
             text: `User [${name}] disconnected!`,
@@ -94,7 +96,7 @@ function getLiveRoomUsers(room) {
     socketServer.sockets.adapter.rooms[room].sockets
   ).map((id) => socketServer.sockets.connected[id]);
   const roomUsers = roomSockets.map((socket) => users.get(socket));
-  console.log("Room users", roomUsers);
+  console.log('Room users', roomUsers);
   return roomUsers;
 }
 
@@ -103,7 +105,7 @@ function getLiveRoomUsers(room) {
  */
 
 htttpServer.listen(port);
-htttpServer.on("error", onError);
+htttpServer.on('error', onError);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -130,24 +132,23 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:
       throw error;
   }
 }
-

@@ -1,0 +1,1 @@
+cd ./chat-server && npm start
