@@ -30,8 +30,10 @@ const MessageBoxInput = () => {
     setText(event.target.value);
   };
   const sendMessage = () => {
-    socketContext.sendMessage(new OutgoingMessage(text));
-    setText('');
+    if (text.trim() !== '') {
+      socketContext.sendMessage(new OutgoingMessage(text));
+      setText('');
+    }
   };
 
   const [onPressEnter, isFocus] = useFormEnterPress(sendMessage);

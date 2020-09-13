@@ -23,6 +23,7 @@ const ACTION_TYPE = {
   SET_EMITS_SEND_MESSAGE: 8,
 };
 
+// eslint-disable-next-line require-jsdoc
 function reducer(context, action) {
   switch (action.type) {
     case ACTION_TYPE.SET_ID:
@@ -30,7 +31,7 @@ function reducer(context, action) {
     case ACTION_TYPE.CONNECT:
       return {...context, isConnected: true};
     case ACTION_TYPE.DISCONNECT:
-      return ContextState;
+      return {...context, isChatEntered: false, isConnected: false};
     case ACTION_TYPE.CHAT_LEAVE:
       return {...context, isChatEntered: false};
     case ACTION_TYPE.SET_MESSAGE:

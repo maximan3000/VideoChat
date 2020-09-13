@@ -10,7 +10,7 @@ const Message = styled(Card)`
   display: inline-block;
   align-self: ${(props) => (props.ismine ? 'flex-end' : 'flex-start')};
   margin-bottom: 10px;
-  max-width: 60%;
+  max-width: 70%;
 `;
 
 /**
@@ -33,7 +33,12 @@ const MessageBox = ({message, isown}) => (
         </Typography>
       }
       subheader={
-        <Typography variant="subtitle2" color="textSecondary">
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          display="block"
+          noWrap={false}
+        >
           {formatTimestamp(message.timestamp)}
         </Typography>
       }

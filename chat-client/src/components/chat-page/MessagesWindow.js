@@ -13,11 +13,12 @@ const Window = styled(Paper)`
 const Container = styled.div`
   padding: 10px 20px;
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: unsafe flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
   min-height: 90%;
 `;
 
+// eslint-disable-next-line require-jsdoc
 function reducer(state, action) {
   switch (action.type) {
     case ACTION_TYPES.ADD_MESSAGE:

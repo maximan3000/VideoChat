@@ -1,5 +1,5 @@
 import React, {useReducer, useEffect} from 'react';
-import {Config} from '../config';
+import {Config} from '../Config';
 import {SocketContext} from '../logic/websocket/context/SocketContext';
 import {SocketController} from '../logic/websocket/SocketController';
 import {
