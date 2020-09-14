@@ -1,10 +1,10 @@
 /**
- * Message that is sended from the socket
+ * Message that is sended from the websocket
  */
 class OutgoingMessage {
   /**
    * @constructor
-   * @param {string} id Id of socket connection in which the message was created
+   * @param {string} id Id of websocket partial in which the message was created
    * @param {string} sender Name of user sended the message
    * @param {number} timestamp Timestamp of message creation
    * @param {string} text Content of the message

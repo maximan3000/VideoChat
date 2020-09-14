@@ -1,5 +1,5 @@
 /**
- * Information needed to enter socket server room
+ * Information needed to enter websocket server room
  */
 class RoomConnection {
   /**

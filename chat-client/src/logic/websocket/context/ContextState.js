@@ -9,6 +9,18 @@ const ContextState = {
     enterRoom: null,
     sendMessage: null,
   },
+  webrtc: {
+    offerContext: null,
+    answerContext: null,
+    iceCandidateOffer: null,
+    iceCandidateAnswer: null,
+    emits: {
+      sendOffer: null,
+      sendAnswer: null,
+      sendIceCandidateOffer: null,
+      sendIceCandidateAnswer: null,
+    },
+  },
 };
 
 const ACTION_TYPE = {
@@ -21,6 +33,14 @@ const ACTION_TYPE = {
   SET_USERS: 6,
   SET_EMITS_ENTER_ROOM: 7,
   SET_EMITS_SEND_MESSAGE: 8,
+  SET_OFFER_CONTEXT: 9,
+  SET_ANSWER_CONTEXT: 10,
+  SET_ICE_CANDIDATE_OFFER: 11,
+  SET_ICE_CANDIDATE_ANSWER: 12,
+  SET_EMIT_SEND_OFFER: 13,
+  SET_EMIT_SEND_ANSWER: 14,
+  SET_EMIT_SEND_ICE_CANDIDATE_OFFER: 15,
+  SET_EMIT_SEND_ICE_CANDIDATE_ANSWER: 16,
 };
 
 // eslint-disable-next-line require-jsdoc
@@ -49,6 +69,76 @@ function reducer(context, action) {
       return {
         ...context,
         emits: {...context.emits, sendMessage: action.sendMessage},
+      };
+    case ACTION_TYPE.SET_OFFER_CONTEXT:
+      return {
+        ...context,
+        webrtc: {...context.webrtc, offerContext: action.offerContext},
+      };
+    case ACTION_TYPE.SET_ANSWER_CONTEXT:
+      return {
+        ...context,
+        webrtc: {...context.webrtc, answerContext: action.answerContext},
+      };
+    case ACTION_TYPE.SET_ICE_CANDIDATE_OFFER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          iceCandidateOffer: action.iceCandidateOffer,
+        },
+      };
+    case ACTION_TYPE.SET_ICE_CANDIDATE_ANSWER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          iceCandidateAnswer: action.iceCandidateAnswer,
+        },
+      };
+    case ACTION_TYPE.SET_EMIT_SEND_OFFER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          emits: {
+            ...context.webrtc.emits,
+            sendOffer: action.sendOffer,
+          },
+        },
+      };
+    case ACTION_TYPE.SET_EMIT_SEND_ANSWER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          emits: {
+            ...context.webrtc.emits,
+            sendAnswer: action.sendAnswer,
+          },
+        },
+      };
+    case ACTION_TYPE.SET_EMIT_SEND_ICE_CANDIDATE_OFFER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          emits: {
+            ...context.webrtc.emits,
+            sendIceCandidateOffer: action.sendIceCandidateOffer,
+          },
+        },
+      };
+    case ACTION_TYPE.SET_EMIT_SEND_ICE_CANDIDATE_ANSWER:
+      return {
+        ...context,
+        webrtc: {
+          ...context.webrtc,
+          emits: {
+            ...context.webrtc.emits,
+            sendIceCandidateAnswer: action.sendIceCandidateAnswer,
+          },
+        },
       };
     default:
       return context;

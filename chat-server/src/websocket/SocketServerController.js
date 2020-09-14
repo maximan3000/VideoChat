@@ -31,7 +31,7 @@ class SocketServerController {
       this.serverName = 'Server';
       this.socketServer = io(httpServer);
       this.socketServer.on(
-        SocketEvents.server.connect,
+        SocketEvents.SERVER.CONNECT,
         this._onConnect.bind(this)
       );
       SocketServerController.instance = this;
@@ -40,7 +40,7 @@ class SocketServerController {
 
   /**
    * Calls when new socket connected
-   * @param {io.Socket} socket Socket connection
+   * @param {io.Socket} socket Socket partial
    * @private
    */
   _onConnect(socket) {
@@ -85,6 +85,14 @@ class SocketServerController {
    */
   getConnectionsCount() {
     return Object.keys(this.socketServer.sockets.sockets).length;
+  }
+
+  /**
+   * @param {string} id Socket connection ID
+   * @return {Socket} Socket connection
+   */
+  getSocketById(id) {
+    return this.socketServer.sockets.sockets[id];
   }
 }
 

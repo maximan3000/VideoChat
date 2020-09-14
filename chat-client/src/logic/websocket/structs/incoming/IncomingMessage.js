@@ -1,5 +1,5 @@
 /**
- * Message gotten from the socket
+ * Message gotten from the websocket
  */
 class IncomingMessage {
   /**
@@ -7,7 +7,7 @@ class IncomingMessage {
    * @param {number} timestamp Timestamp of message creation
    * @param {string} sender Name of user sended the message
    * @param {string} text Content of the message
-   * @param {string} id Id of socket connection in which the message was created
+   * @param {string} id Id of websocket partial in which the message was created
    */
   constructor(timestamp, sender, text, id) {
     this.text = text;

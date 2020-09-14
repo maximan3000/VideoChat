@@ -1,10 +1,10 @@
 /**
- * Access interface to socket context
+ * Access interface to websocket context
  */
 export class IContext {
   /**
    * @constructor
-   * @param {ContextState} context Current state of socket context
+   * @param {ContextState} context Current state of websocket context
    * @see useSocketContext
    */
   constructor(context) {
@@ -12,7 +12,7 @@ export class IContext {
   }
 
   /**
-   * @return {string} Id of current socket connection
+   * @return {string} Id of current websocket partial
    */
   get id() {
     return this._context.id;
@@ -26,14 +26,14 @@ export class IContext {
   }
 
   /**
-   * @return {boolean} Return true if socket has connected
+   * @return {boolean} Return true if websocket has connected
    */
   get isConnected() {
     return this._context.isConnected;
   }
 
   /**
-   * @return {IncomingMessage} The last message gotten from the socket
+   * @return {IncomingMessage} The last message gotten from the websocket
    */
   get message() {
     return this._context.message;
@@ -54,6 +54,34 @@ export class IContext {
   }
 
   /**
+   * @return {OfferContext} The last offer context gotten from the websocket
+   */
+  get offerContext() {
+    return this._context.webrtc.offerContext;
+  }
+
+  /**
+   * @return {AnswerContext} The last answer context gotten from the websocket
+   */
+  get answerContext() {
+    return this._context.webrtc.answerContext;
+  }
+
+  /**
+   * @return {IceCandidateContext} The last ice candidate context from offer gotten from the websocket
+   */
+  get iceCandidateOffer() {
+    return this._context.webrtc.iceCandidateOffer;
+  }
+
+  /**
+   * @return {IceCandidateContext} The last ice candidate context from answer gotten from the websocket
+   */
+  get iceCandidateAnswer() {
+    return this._context.webrtc.iceCandidateAnswer;
+  }
+
+  /**
    * @see SocketController.enterRoom
    * @param {RoomConnection} roomConnection
    */
@@ -67,5 +95,37 @@ export class IContext {
    */
   sendMessage(message) {
     this._context.emits.sendMessage(message);
+  }
+
+  /**
+   * @see SocketController.sendOffer
+   * @param {RTCSessionDescription} offer
+   */
+  sendOffer(offer) {
+    this._context.webrtc.emits.sendOffer(offer);
+  }
+
+  /**
+   * @see SocketController.sendAnswer
+   * @param {AnswerContext} answerContext
+   */
+  sendAnswer(answerContext) {
+    this._context.webrtc.emits.sendAnswer(answerContext);
+  }
+
+  /**
+   * @see SocketController.sendIceCandidateOffer
+   * @param {RTCIceCandidate} iceCandidate
+   */
+  sendIceCandidateOffer(iceCandidate) {
+    this._context.webrtc.emits.sendIceCandidateOffer(iceCandidate);
+  }
+
+  /**
+   * @see SocketController.sendIceCandidateAnswer
+   * @param {IceCandidateContext} iceCandidateContext
+   */
+  sendIceCandidateAnswer(iceCandidateContext) {
+    this._context.webrtc.emits.sendIceCandidateAnswer(iceCandidateContext);
   }
 }

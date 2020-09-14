@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line valid-jsdoc
 /**
- * Link socket context with socket controller
+ * Link websocket context with websocket controller
  * @see ContextState
  * @see SocketController
  * @return {JSX.Element}
@@ -37,6 +37,30 @@ export const SocketManager = (props) => {
     socket.onMessage((message) => {
       dispatchContext({type: ACTION_TYPE.SET_MESSAGE, message: message});
     });
+    socket.onOffer((offerContext) => {
+      dispatchContext({
+        type: ACTION_TYPE.SET_OFFER_CONTEXT,
+        offerContext: offerContext,
+      });
+    });
+    socket.onAnswer((answerContext) => {
+      dispatchContext({
+        type: ACTION_TYPE.SET_ANSWER_CONTEXT,
+        answerContext: answerContext,
+      });
+    });
+    socket.onIceCandidateOffer((iceCandidateContext) => {
+      dispatchContext({
+        type: ACTION_TYPE.SET_ICE_CANDIDATE_OFFER,
+        iceCandidateOffer: iceCandidateContext,
+      });
+    });
+    socket.onIceCandidateAnswer((iceCandidateContext) => {
+      dispatchContext({
+        type: ACTION_TYPE.SET_ICE_CANDIDATE_ANSWER,
+        iceCandidateAnswer: iceCandidateContext,
+      });
+    });
 
     dispatchContext({
       type: ACTION_TYPE.SET_EMITS_ENTER_ROOM,
@@ -45,6 +69,24 @@ export const SocketManager = (props) => {
     dispatchContext({
       type: ACTION_TYPE.SET_EMITS_SEND_MESSAGE,
       sendMessage: (message) => socket.sendMessage(message),
+    });
+    dispatchContext({
+      type: ACTION_TYPE.SET_EMIT_SEND_OFFER,
+      sendOffer: (offer) => socket.sendOffer(offer),
+    });
+    dispatchContext({
+      type: ACTION_TYPE.SET_EMIT_SEND_ANSWER,
+      sendAnswer: (answerContext) => socket.sendAnswer(answerContext),
+    });
+    dispatchContext({
+      type: ACTION_TYPE.SET_EMIT_SEND_ICE_CANDIDATE_OFFER,
+      sendIceCandidateOffer: (iceCandidate) =>
+        socket.sendIceCandidateOffer(iceCandidate),
+    });
+    dispatchContext({
+      type: ACTION_TYPE.SET_EMIT_SEND_ICE_CANDIDATE_ANSWER,
+      sendIceCandidateAnswer: (iceCandidateContext) =>
+        socket.sendIceCandidateAnswer(iceCandidateContext),
     });
   }, []);
 

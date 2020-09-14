@@ -1,5 +1,5 @@
 /**
- * Message sended to the socket from client
+ * Message sended to the websocket from client
  */
 class IncomingMessage {
   /**

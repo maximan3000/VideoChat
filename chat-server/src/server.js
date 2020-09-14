@@ -1,8 +1,8 @@
 const config = require('./config');
 const HttpServerController = require('./http/HttpServerController');
-const SocketServerController = require('./socket/SocketServerController');
+const SocketServerController = require('./websocket/SocketServerController');
 
 const httpServerController = HttpServerController.create(config.port);
-const socketController = SocketServerController.attach(httpServerController);
+SocketServerController.attach(httpServerController);
 
 httpServerController.start();
