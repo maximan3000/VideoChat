@@ -1,4 +1,4 @@
-#Chat application
+# Chat application
 ### Used development stack:
 * Server:
   * Node.js
